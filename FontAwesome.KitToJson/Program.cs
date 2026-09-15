@@ -1,4 +1,8 @@
 ﻿using ConsoleAppFramework;
 using FontAwesome.KitToJson;
 
-await ConsoleApp.RunAsync(args, App.KitToJson);
+var app = ConsoleApp.Create();
+
+app.Add<App>();
+
+await app.RunAsync(args);

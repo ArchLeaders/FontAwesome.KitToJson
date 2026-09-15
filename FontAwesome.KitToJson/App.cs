@@ -7,16 +7,19 @@ using Kokuban;
 
 namespace FontAwesome.KitToJson;
 
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
+[SuppressMessage("Performance", "CA1822:Mark members as static")]
 public class App
 {
     private static readonly JsonSerializerOptions _options = new() {
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
     
     /// <summary>Convert a FontAwesome kit to a JSON metadata file.</summary>
     /// <param name="kitFolderPath">The path to an unzipped FontAwesome kit.</param>
     /// <param name="output">-o, Output file path.</param>
-    public static void KitToJson([Argument] string kitFolderPath, string output = "info.json")
+    [Command("kit-to-json")]
+    public void KitToJson([Argument] string kitFolderPath, string output = "info.json")
     {
         var metadata = new Dictionary<string, FontAwesomeIcon>();
         var icons = Directory.EnumerateDirectories(Path.Combine(kitFolderPath, "svgs"))
@@ -43,6 +46,19 @@ public class App
 
         using var fs = File.Create(output);
         JsonSerializer.Serialize(fs, metadata, _options);
+    }
+    
+    /// <summary>Convert a FontAwesome kit to a JSON metadata file.</summary>
+    /// <param name="jsonFilePath">The path to an unzipped FontAwesome kit.</param>
+    /// <param name="output">-o, Output file path.</param>
+    [Command("strip")]
+    public void Strip([Argument] string jsonFilePath, string output = "info.json")
+    {
+        using var fs = File.OpenRead(jsonFilePath);
+        var min = JsonSerializer.Deserialize<Dictionary<string, FontAwesomeIcon>>(fs);
+
+        using var outputFs = File.Create(output);
+        JsonSerializer.Serialize(outputFs, min, _options);
     }
 
     private static bool ParseSvg(string filePath, out (int X, int Y, int W, int H) viewBox, [MaybeNullWhen(false)] out string primary, out string? secondary)
