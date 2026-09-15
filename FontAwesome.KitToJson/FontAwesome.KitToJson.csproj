@@ -7,6 +7,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(RuntimeIdentifier)' != ''">
+    <PublishSingleFile>true</PublishSingleFile>
+    <DebugType>embedded</DebugType>
+    <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+    <AssemblyName>fa</AssemblyName>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="ConsoleAppFramework" Version="5.7.13">
       <PrivateAssets>all</PrivateAssets>
