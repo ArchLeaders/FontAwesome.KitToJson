@@ -18,7 +18,7 @@ public class App
     /// <summary>Convert a FontAwesome kit to a JSON metadata file.</summary>
     /// <param name="kitFolderPath">The path to an unzipped FontAwesome kit.</param>
     /// <param name="output">-o, Output file path.</param>
-    [Command("kit-to-json")]
+    [Command("to-json")]
     public void KitToJson([Argument] string kitFolderPath, string output = "info.json")
     {
         var metadata = new Dictionary<string, FontAwesomeIcon>();
@@ -51,7 +51,7 @@ public class App
     /// <summary>Convert a FontAwesome kit to a JSON metadata file.</summary>
     /// <param name="jsonFilePath">The path to an unzipped FontAwesome kit.</param>
     /// <param name="output">-o, Output file path.</param>
-    [Command("strip")]
+    [Command("min")]
     public void Strip([Argument] string jsonFilePath, string output = "info.json")
     {
         using var fs = File.OpenRead(jsonFilePath);
